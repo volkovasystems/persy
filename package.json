@@ -1,0 +1,31 @@
+{
+  "name": "persy",
+  "version": "0.0.0",
+  "description": "Persist JSON object.",
+  "main": "persy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volkovasystems/persy.git"
+  },
+  "keywords": [
+    "persist",
+    "json",
+    "object",
+    "persy"
+  ],
+  "author": "Richeve S. Bebedor <richeve.bebedor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/volkovasystems/persy/issues"
+  },
+  "homepage": "https://github.com/volkovasystems/persy#readme",
+  "dependencies": {
+    "calcify": "0.0.0",
+    "empt": "0.0.0",
+    "scrivi": "0.0.2",
+    "zelf": "0.0.4"
+  }
+}
