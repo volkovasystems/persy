@@ -51,19 +51,29 @@
 	@include:
 		{
 			"calcify": "calcify",
-			"empt": "empt",
+			"falzy": "falzy",
+			"kept": "kept",
+			"letgo": "letgo",
+			"protype": "protype",
 			"scrivi": "scrivi",
+			"touche": "touche",
 			"zelf": "zelf"
 		}
 	@end-include
 */
 
-var calcify = require( "calcify" );
-var empt = require( "empt" );
-var scrivi = require( "scrivi" );
-var zelf = require( "zelf" );
+const calcify = require( "calcify" );
+const falzy = require( "falzy" );
+const kept = require( "kept" );
+const letgo = require( "letgo" );
+const protype = require( "protype" );
+const scrivi = require( "scrivi" );
+const touche = require( "touche" );
+const zelf = require( "zelf" );
 
-var persy = function persy( path, object, synchronous ){
+const JSON_FILE_PATTERN = /\.json$/;
+
+const persy = function persy( path, object, synchronous ){
 	/*;
 		@meta-configuration:
 			{
@@ -74,38 +84,62 @@ var persy = function persy( path, object, synchronous ){
 		@end-meta-configuration
 	*/
 
-	if( typeof path != "string" ){
+	if( falzy( path ) || !protype( path, STRING ) ){
 		throw new Error( "invalid path" );
 	}
 
-	if( !path ){
-		throw new Error( "no given path" );
-	}
-
-	if( typeof object != "object" ){
+	if( falzy( object ) || !protype( object, OBJECT ) ){
 		throw new Error( "invalid object" );
 	}
 
-	if( !object ){
-		throw new Error( "no given object" );
-	}
-
-	if( empt( object ) ){
-		throw new Error( "empty object" );
-	}
-
-	if( !( /\.json$/ ).test( path ) ){
-		path = path + ".json";
+	if( !JSON_FILE_PATTERN.test( path ) ){
+		path = `${ path }.json`;
 	}
 
 	try{
 		object = calcify( object );
 
 	}catch( error ){
-		throw new Error( "error transforming object, " + error.message );
+		throw new Error( `error transforming object, ${ error }` );
 	}
 
-	return scrivi.bind( zelf( this ) )( path, object, synchronous );
+	if( synchronous ){
+		try{
+			if( !kept( path, true ) ){
+				touche( path, true );
+			}
+
+			return scrivi( path, object, true );
+
+		}catch( error ){
+			throw new Error( `cannot persist json object, ${ error }` );
+		}
+
+	}else{
+		let catcher = letgo.bind( zelf( this ) )( function later( cache ){
+			kept( path )
+				( function done( error, exist ){
+					if( !exist ){
+						touche( path )
+							( function done( error ){
+								if( error ){
+									error = new Error( `cannot persist json object, ${ error }` );
+
+									cache.callback( error, false );
+
+								}else{
+									scrivi( path, object )( cache.callback );
+								}
+							} );
+
+					}else{
+						scrivi( path, object )( cache.callback );
+					}
+				} );
+		} );
+
+		return catcher;
+	}
 };
 
 module.exports = persy;
