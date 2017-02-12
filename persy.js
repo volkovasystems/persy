@@ -78,7 +78,10 @@ const persy = function persy( path, object, synchronous ){
 		@meta-configuration:
 			{
 				"path:required": "string",
-				"object:required": "object",
+				"object:required": [
+					"object",
+					"string"
+				],
 				"synchronous": "boolean"
 			}
 		@end-meta-configuration
@@ -88,7 +91,7 @@ const persy = function persy( path, object, synchronous ){
 		throw new Error( "invalid path" );
 	}
 
-	if( falzy( object ) || !protype( object, OBJECT ) ){
+	if( falzy( object ) || !protype( object, OBJECT + STRING ) ){
 		throw new Error( "invalid object" );
 	}
 
@@ -100,7 +103,7 @@ const persy = function persy( path, object, synchronous ){
 		object = calcify( object );
 
 	}catch( error ){
-		throw new Error( `error transforming object, ${ error }` );
+		throw new Error( `cannot stringify object, ${ error.stack }` );
 	}
 
 	if( synchronous ){
@@ -112,31 +115,32 @@ const persy = function persy( path, object, synchronous ){
 			return scrivi( path, object, true );
 
 		}catch( error ){
-			throw new Error( `cannot persist json object, ${ error }` );
+			throw new Error( `cannot persist json object, ${ error.stack }` );
 		}
 
 	}else{
-		let catcher = letgo.bind( zelf( this ) )( function later( cache ){
-			kept( path )
-				( function done( error, exist ){
-					if( !exist ){
-						touche( path )
-							( function done( error ){
-								if( error ){
-									error = new Error( `cannot persist json object, ${ error }` );
+		let catcher = letgo.bind( zelf( this ) )
+			( function later( cache ){
+				kept( path )
+					( function done( error, exist ){
+						if( !exist ){
+							touche( path )
+								( function done( error ){
+									if( error ){
+										error = new Error( `cannot persist json object, ${ error.stack }` );
 
-									cache.callback( error, false );
+										cache.callback( error, false );
 
-								}else{
-									scrivi( path, object )( cache.callback );
-								}
-							} );
+									}else{
+										scrivi( path, object )( cache.callback );
+									}
+								} );
 
-					}else{
-						scrivi( path, object )( cache.callback );
-					}
-				} );
-		} );
+						}else{
+							scrivi( path, object )( cache.callback );
+						}
+					} );
+			} );
 
 		return catcher;
 	}

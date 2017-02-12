@@ -66,12 +66,13 @@ budge@^0.6.0:
     doubt "^0.10.0"
     raze "^0.12.0"
 
-calcify@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/calcify/-/calcify-0.3.0.tgz#1b2c6a19f5547b9d8c94018462c5d736457d81b3"
+calcify@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/calcify/-/calcify-0.4.0.tgz#b57f06b173b4190376ba397e1f6018dfe39b636e"
   dependencies:
     babel-runtime "^6.22.0"
-    parseon "^0.2.0"
+    circular-json "^0.3.1"
+    parseon "^0.3.0"
 
 called@^0.9.0:
   version "0.9.0"
@@ -96,6 +97,17 @@ cemento@^0.7.0:
   dependencies:
     babel-runtime "^6.22.0"
     harden "^0.14.0"
+
+cemento@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/cemento/-/cemento-0.8.0.tgz#b95751f73f408b70f14d440c1939018ba0bb6e21"
+  dependencies:
+    babel-runtime "^6.22.0"
+    harden "^0.14.0"
+
+circular-json@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
 
 clazof@^0.4.0:
   version "0.4.0"
@@ -253,6 +265,13 @@ falzy@^0.10.0:
     babel-runtime "^6.22.0"
     protype "^0.11.0"
 
+falzy@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/falzy/-/falzy-0.11.0.tgz#61665d9714b3e0281491e8cd2de7d69726eadde3"
+  dependencies:
+    babel-runtime "^6.22.0"
+    protype "^0.15.0"
+
 falzy@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/falzy/-/falzy-0.7.0.tgz#ed5a866d8e91b0ae6b7a4a207e289bbfe42af77f"
@@ -365,13 +384,14 @@ letgo@^0.17.0:
     truly "^0.9.0"
     zelf "^0.6.0"
 
-parseon@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/parseon/-/parseon-0.2.0.tgz#5ad3fb73099c6628146ad366f3a3d8725f50ea7c"
+parseon@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/parseon/-/parseon-0.3.0.tgz#44b12f32912176bf2a3479a76c7e1c862a61906d"
   dependencies:
     babel-runtime "^6.22.0"
+    circular-json "^0.3.1"
     krumb "^0.1.0"
-    protype "^0.11.0"
+    protype "^0.15.0"
 
 protype@^0.11.0:
   version "0.11.0"
@@ -379,6 +399,14 @@ protype@^0.11.0:
   dependencies:
     babel-runtime "^6.22.0"
     cemento "^0.7.0"
+    harden "^0.14.0"
+
+protype@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/protype/-/protype-0.15.0.tgz#6cb05c750b098760dd268f0c21bae6339aa7d38d"
+  dependencies:
+    babel-runtime "^6.22.0"
+    cemento "^0.8.0"
     harden "^0.14.0"
 
 protype@^0.7.0:
