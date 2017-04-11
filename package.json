@@ -1,6 +1,6 @@
 {
   "name": "persy",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Persist JSON object.",
   "main": "persy.js",
   "scripts": {
@@ -28,11 +28,11 @@
   "dependencies": {
     "calcify": "^0.7.0",
     "falzy": "^0.17.0",
-    "kept": "^0.16.0",
-    "letgo": "^0.24.0",
+    "kept": "^0.17.0",
+    "letgo": "^0.25.0",
     "protype": "^0.21.0",
-    "scrivi": "^0.7.0",
-    "touche": "^0.6.0",
+    "scrivi": "^0.9.0",
+    "touche": "^0.7.0",
     "zelf": "^0.11.0"
   }
 }
