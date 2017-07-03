@@ -32,10 +32,10 @@
 			"file": "persy.js",
 			"module": "persy",
 			"author": "Richeve S. Bebedor",
+			"eMail": "richeve.bebedor@gmail.com",
 			"contributors": [
 				"John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
 			],
-			"eMail": "richeve.bebedor@gmail.com",
 			"repository": "https://github.com:volkovasystems/persy.git",
 			"test": "persy-test.js",
 			"global": true
@@ -122,6 +122,61 @@ const persy = function persy( path, object, synchronous ){
 		}
 
 	}else{
+
+		let self = zelf( this );
+
+		let catcher = kept.bind( self )( path )
+			.then( function done( error, exist ){
+				if( !exist ){
+
+					touche( path )
+						( function done( error ){
+							if( error ){
+								error = new Error( `cannot persist json object, ${ error.stack }` );
+
+								return catcher.pass( error, false );
+
+							}else{
+								scrivi( path, object )
+									( function done( error, result ){
+										if( error ){
+
+											return catcher.pass( new Error( `cannot replace content of existing file, ${ error.stack }` ), "" );
+
+										}else{
+
+											return catcher.pass( null, true );
+
+										}
+									} );
+
+								return catcher;
+
+							}
+						} );
+
+				}else{
+
+					scrivi( path, object )
+						( function done( error, result ){
+							if( error ){
+
+								return catcher.pass( new Error( `cannot replace content of existing file, ${ error.stack }` ), "" );
+
+							}else{
+
+								return catcher.pass( null, true );
+
+							}
+						} );
+
+					return catcher;
+
+				}
+			} );
+
+		return catcher;
+		/*
 		let catcher = letgo.bind( zelf( this ) )
 			( function later( cache ){
 				kept( path )
@@ -146,6 +201,7 @@ const persy = function persy( path, object, synchronous ){
 			} );
 
 		return catcher;
+		*/
 	}
 };
 
