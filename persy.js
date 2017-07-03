@@ -137,7 +137,7 @@ const persy = function persy( path, object, synchronous ){
 
 							}else{
 
-								scrivi( path, object )
+								return scrivi( path, object )
 									( function done( error, result ){
 										if( error ){
 
@@ -150,14 +150,12 @@ const persy = function persy( path, object, synchronous ){
 										}
 									} );
 
-								return catcher;
-
 							}
 						} );
 
 				}else{
 
-					scrivi( path, object )
+					return scrivi( path, object )
 						( function done( error, result ){
 							if( error ){
 
@@ -169,8 +167,6 @@ const persy = function persy( path, object, synchronous ){
 
 							}
 						} );
-
-					return catcher;
 
 				}
 			} );
