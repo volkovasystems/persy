@@ -178,7 +178,7 @@ const persy = function persy( path, object, synchronous ){
 			} );
 
 		return catcher;
-		
+
 	}
 };
 
