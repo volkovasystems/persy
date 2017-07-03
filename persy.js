@@ -56,7 +56,6 @@
 			"calcify": "calcify",
 			"falzy": "falzy",
 			"kept": "kept",
-			"letgo": "letgo",
 			"protype": "protype",
 			"scrivi": "scrivi",
 			"touche": "touche",
@@ -68,7 +67,6 @@
 const calcify = require( "calcify" );
 const falzy = require( "falzy" );
 const kept = require( "kept" );
-const letgo = require( "letgo" );
 const protype = require( "protype" );
 const scrivi = require( "scrivi" );
 const touche = require( "touche" );
