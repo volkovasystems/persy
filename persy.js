@@ -132,20 +132,22 @@ const persy = function persy( path, object, synchronous ){
 					touche( path )
 						( function done( error ){
 							if( error ){
+
 								error = new Error( `cannot persist json object, ${ error.stack }` );
 
 								return catcher.pass( error, false );
 
 							}else{
+
 								scrivi( path, object )
 									( function done( error, result ){
 										if( error ){
 
-											return catcher.pass( new Error( `cannot replace content of existing file, ${ error.stack }` ), "" );
+											catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
 
 										}else{
 
-											return catcher.pass( null, true );
+											catcher.pass( null, true );
 
 										}
 									} );
@@ -161,11 +163,11 @@ const persy = function persy( path, object, synchronous ){
 						( function done( error, result ){
 							if( error ){
 
-								return catcher.pass( new Error( `cannot replace content of existing file, ${ error.stack }` ), "" );
+								catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
 
 							}else{
 
-								return catcher.pass( null, true );
+								catcher.pass( null, true );
 
 							}
 						} );
@@ -176,32 +178,7 @@ const persy = function persy( path, object, synchronous ){
 			} );
 
 		return catcher;
-		/*
-		let catcher = letgo.bind( zelf( this ) )
-			( function later( cache ){
-				kept( path )
-					( function done( error, exist ){
-						if( !exist ){
-							touche( path )
-								( function done( error ){
-									if( error ){
-										error = new Error( `cannot persist json object, ${ error.stack }` );
-
-										cache.callback( error, false );
-
-									}else{
-										scrivi( path, object )( cache.callback );
-									}
-								} );
-
-						}else{
-							scrivi( path, object )( cache.callback );
-						}
-					} );
-			} );
-
-		return catcher;
-		*/
+		
 	}
 };
 
