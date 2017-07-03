@@ -1,10 +1,10 @@
 const assert = require( "assert" );
 const persy = require( "./persy.js" );
 
-console.log( persy( "hello-world", { "hello": "world" }, true ) );
+assert.equal( persy( "hello-world", { "hello": "world" }, true ), true, "should be true" );
 
 persy( "yeah-world", { "yeah": "world" } )
-	( function done( ){
+	( function done( error, result ){
 		console.log( arguments );
 	} );
 
