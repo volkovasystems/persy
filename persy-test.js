@@ -5,7 +5,7 @@ assert.equal( persy( "hello-world", { "hello": "world" }, true ), true, "should 
 
 persy( "yeah-world", { "yeah": "world" } )
 	( function done( error, result ){
-		console.log( arguments );
+		assert.equal( result, true, "should be true" );
 	} );
 
 console.log( "ok" );
