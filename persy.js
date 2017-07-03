@@ -32,10 +32,10 @@
 			"file": "persy.js",
 			"module": "persy",
 			"author": "Richeve S. Bebedor",
+			"eMail": "richeve.bebedor@gmail.com",
 			"contributors": [
 				"John Lenon Maghanoy <johnlenonmaghanoy@gmail.com>"
 			],
-			"eMail": "richeve.bebedor@gmail.com",
 			"repository": "https://github.com:volkovasystems/persy.git",
 			"test": "persy-test.js",
 			"global": true
@@ -56,7 +56,6 @@
 			"calcify": "calcify",
 			"falzy": "falzy",
 			"kept": "kept",
-			"letgo": "letgo",
 			"protype": "protype",
 			"scrivi": "scrivi",
 			"touche": "touche",
@@ -68,7 +67,6 @@
 const calcify = require( "calcify" );
 const falzy = require( "falzy" );
 const kept = require( "kept" );
-const letgo = require( "letgo" );
 const protype = require( "protype" );
 const scrivi = require( "scrivi" );
 const touche = require( "touche" );
@@ -122,30 +120,63 @@ const persy = function persy( path, object, synchronous ){
 		}
 
 	}else{
-		let catcher = letgo.bind( zelf( this ) )
-			( function later( cache ){
-				kept( path )
-					( function done( error, exist ){
-						if( !exist ){
-							touche( path )
-								( function done( error ){
-									if( error ){
-										error = new Error( `cannot persist json object, ${ error.stack }` );
 
-										cache.callback( error, false );
+		let self = zelf( this );
 
-									}else{
-										scrivi( path, object )( cache.callback );
-									}
-								} );
+		let catcher = kept.bind( self )( path )
+			.then( function done( error, exist ){
+				if( !exist ){
 
-						}else{
-							scrivi( path, object )( cache.callback );
-						}
-					} );
+					touche( path )
+						( function done( error ){
+							if( error ){
+
+								error = new Error( `cannot persist json object, ${ error.stack }` );
+
+								return catcher.pass( error, false );
+
+							}else{
+
+								scrivi( path, object )
+									( function done( error, result ){
+										if( error ){
+
+											catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
+
+										}else{
+
+											catcher.pass( null, true );
+
+										}
+									} );
+
+								return catcher;
+
+							}
+						} );
+
+				}else{
+
+					scrivi( path, object )
+						( function done( error, result ){
+							if( error ){
+
+								catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
+
+							}else{
+
+								catcher.pass( null, true );
+
+							}
+						} );
+
+					return catcher;
+
+				}
 			} );
 
 		return catcher;
+
 	}
 };
 
