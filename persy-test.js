@@ -1,11 +1,17 @@
+
 const assert = require( "assert" );
+const fs = require( "fs" );
 const persy = require( "./persy.js" );
 
-assert.equal( persy( "hello-world", { "hello": "world" }, true ), true, "should be true" );
+assert.equal( persy( "test.json", { "hello": "world" }, true ), true, "should be true" );
 
-persy( "yeah-world", { "yeah": "world" } )
+fs.unlinkSync( "test.json" );
+
+persy( "test.json", { "yeah": "world" } )
 	( function done( error, result ){
 		assert.equal( result, true, "should be true" );
-	} );
 
-console.log( "ok" );
+		fs.unlinkSync( "test.json" );
+
+		console.log( "ok" );
+	} );

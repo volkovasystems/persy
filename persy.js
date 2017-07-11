@@ -88,7 +88,7 @@ const persy = function persy( path, object, synchronous ){
 		@end-meta-configuration
 	*/
 
-	if( falzy( path ) || !protype( path, STRING ) ){
+	if( falzy( path ) || typeof path != "string" ){
 		throw new Error( "invalid path" );
 	}
 
@@ -107,7 +107,7 @@ const persy = function persy( path, object, synchronous ){
 		throw new Error( `cannot stringify object, ${ error.stack }` );
 	}
 
-	if( synchronous ){
+	if( synchronous === true ){
 		try{
 			if( !kept( path, true ) ){
 				touche( path, true );
@@ -120,55 +120,31 @@ const persy = function persy( path, object, synchronous ){
 		}
 
 	}else{
-
-		let self = zelf( this );
-
-		let catcher = kept.bind( self )( path )
+		let catcher = kept.bind( zelf( this ) )( path )
 			.then( function done( error, exist ){
 				if( !exist ){
+					return touche( path )( function done( error ){
+						if( error instanceof Error ){
+							return catcher.pass( new Error( `cannot persist json object, ${ error.stack }` ), false );
+						}
 
-					touche( path )
-						( function done( error ){
-							if( error ){
-
-								error = new Error( `cannot persist json object, ${ error.stack }` );
-
-								return catcher.pass( error, false );
-
-							}else{
-
-								return scrivi( path, object )
-									( function done( error, result ){
-										if( error ){
-
-											catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
-
-										}else{
-
-											catcher.pass( null, true );
-
-										}
-									} );
-
+						return scrivi( path, object )( function done( error, result ){
+							if( error instanceof Error ){
+								return catcher.pass( new Error( `cannot persist json object, ${ error.stack }` ), false );
 							}
+
+							return catcher.pass( null, true );
 						} );
-
-				}else{
-
-					return scrivi( path, object )
-						( function done( error, result ){
-							if( error ){
-
-								catcher.pass( new Error( `cannot replace content of JSON file, ${ error.stack }` ), "" );
-
-							}else{
-
-								catcher.pass( null, true );
-
-							}
-						} );
-
+					} );
 				}
+
+				return scrivi( path, object )( function done( error, result ){
+					if( error instanceof Error ){
+						return catcher.pass( new Error( `cannot persist json object, ${ error.stack }` ), false );
+					}
+
+					return catcher.pass( null, true );
+				} );
 			} );
 
 		return catcher;
